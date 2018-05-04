@@ -1,0 +1,30 @@
+name: otbr
+version: '0.1'
+summary: OpenThread Border Router
+description: |
+  Per the Thread 1.1.1 Specification, a Border Router connects a 802.15.4 network to networks at different layers, such as WiFi or Ethernet.
+  A Thread network requires a Border Router to connect to other networks.
+
+grade: devel
+confinement: devmode
+
+parts:
+  libcoap:
+    plugin: autotools
+    source: ../third_party/libcoap/repo
+    build-packages:
+      - autoconf
+      - pkgconf
+      - libtool
+    configflags:
+      - --disable-examples
+    override-pull: |
+      mkdir -p /tmp/libcoap
+      cp -R ${SNAPCRAFT_STAGE}/../../third_party/libcoap/patch /tmp/libcoap
+      sed -i -e s#a/repo/#a/#g /tmp/libcoap/patch/*.patch
+      sed -i -e s#b/repo/#b/#g /tmp/libcoap/patch/*.patch
+      snapcraftctl pull
+      patch -N -p1 < /tmp/libcoap/patch/0001-remove-generated-files-and-fix-separate-response.patch
+      patch -N -p1 < /tmp/libcoap/patch/0002-fix-warnings.patch
+      patch -N -p1 < /tmp/libcoap/patch/0003-disable-documentation.patch
+
