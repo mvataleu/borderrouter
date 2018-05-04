@@ -15,7 +15,10 @@ parts:
     build-packages:
       - autoconf
       - pkgconf
+      - build-essential
       - libtool
+      - doxygen
+      - ctags
     configflags:
       - --disable-examples
     override-pull: |
