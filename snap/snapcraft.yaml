@@ -31,3 +31,63 @@ parts:
       patch -N -p1 < /tmp/libcoap/patch/0002-fix-warnings.patch
       patch -N -p1 < /tmp/libcoap/patch/0003-disable-documentation.patch
 
+  uncrustify:
+    plugin: cmake
+    source: https://github.com/uncrustify/uncrustify/archive/uncrustify-0.64.tar.gz
+    configflags:
+    - -DCMAKE_BUILD_TYPE=Release
+    - -DCMAKE_INSTALL_PREFIX=/usr
+    #- DESTDIR=$STAGE_DIR XXX
+
+  cpputest:
+    plugin: autotools
+    source: https://github.com/cpputest/cpputest/archive/v3.8.tar.gz
+    configflags:
+      - --prefix=/usr
+      #- DESTDIR=$STAGE_DIR XXX
+
+  wpantund:
+    plugin: nil
+    stage-packages:
+      - libdbus-1-dev
+      - autoconf-archive
+
+  mdns:
+    plugin: nil
+    stage-packages:
+      - libavahi-common-dev
+      - libavahi-client-dev
+      - avahi-daemon
+
+  boost:
+    plugin: nil
+    stage-packages:
+      - libboost-dev
+      - libboost-filesystem-dev
+      - libboost-system-dev
+
+  nat64:
+    plugin: nil
+    stage-packages:
+      - tayga
+      - iptables
+
+  dns64:
+    plugin: nil
+    stage-packages:
+      - bind9
+
+  network-manager:
+    plugin: nil
+    stage-packages:
+      - network-manager
+
+  dhcpcd5: # XXX: check custom deb for armhf
+    plugin: nil
+    stage-packages:
+      - dhcpcd5
+
+  libjsoncpp:
+    plugin: nil
+    stage-packages:
+      - libjsoncpp-dev
